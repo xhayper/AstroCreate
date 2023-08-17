@@ -13,5 +13,6 @@ public class LoadButton : MonoBehaviour
     void OnLoadButtonPressed()
     {
         // TODO: Open a file selector prompt
+        Debug.Log("Open a file selector prompt");
     }
 }
