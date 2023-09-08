@@ -1,0 +1,9 @@
+Project: DOTween https://github.com/Demigiant/dotween
+
+Copyright 2023 Daniele Giardini
+License http://dotween.demigiant.com/license.php
+
+
+Project: SimaiSharp https://github.com/reflektone-games/SimaiSharp
+
+Copyright 2023 Reflektone Games. All right reserved.
