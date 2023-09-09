@@ -6,7 +6,7 @@ Simai chart editor with [AstroDX](https://github.com/2394425147/maipaddx) compla
 
 ## Project Stage
 
-Current Stage: 1
+Current Stage: 2
 
 Stage 1: Mock up
 - We will be creating our mockup for the UI first before working on the actual editor
