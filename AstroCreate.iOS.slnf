@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "AstroCreate.sln",
+    "projects": [
+      "AstroCreate.Game\\AstroCreate.Game.csproj",
+      "AstroCreate.Resources\\AstroCreate.Resources.csproj",
+      "AstroCreate.iOS\\AstroCreate.iOS.csproj"
+    ]
+  }
+}
