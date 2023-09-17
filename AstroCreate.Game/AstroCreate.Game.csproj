@@ -8,4 +8,9 @@
   <ItemGroup>
     <PackageReference Include="ppy.osu.Framework" Version="2023.914.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SimaiSharp">
+      <HintPath>..\AstroCreate.Resources\Libs\SimaiSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
