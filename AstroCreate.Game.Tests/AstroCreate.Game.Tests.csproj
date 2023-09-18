@@ -2,6 +2,7 @@
   <PropertyGroup Label="Project">
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup Label="Project References">

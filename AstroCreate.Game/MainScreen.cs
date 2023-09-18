@@ -27,6 +27,14 @@ namespace AstroCreate.Game
                     Origin = Anchor.TopCentre,
                     Font = FontUsage.Default.With(size: 40)
                 },
+                new SpriteText
+                {
+                    Y = 80,
+                    Text = "Hello, World!",
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Font = FontUsage.Default.With(size: 40)
+                },
                 new SpinningBox
                 {
                     Anchor = Anchor.Centre,

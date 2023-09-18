@@ -23,4 +23,28 @@
   <ItemGroup>
     <PackageReference Include="ppy.osu.Framework.iOS" Version="2023.914.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AtlasTexture Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Metal Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <SceneKitAsset Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets.xcassets\AppIcon.appiconset\_\**" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 ﻿using Android.App;
+using Android.Content.PM;
+using Android.OS;
 using AstroCreate.Game;
 using osu.Framework.Android;
 
@@ -8,5 +10,11 @@ namespace AstroCreate.Android
     public class AstroCreateActivity : AndroidGameActivity
     {
         protected override osu.Framework.Game CreateGame() => new AstroCreateGame();
+
+        protected override void OnCreate(Bundle? savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            RequestedOrientation = ScreenOrientation.SensorLandscape;
+        }
     }
 }
