@@ -19,3 +19,7 @@ Stage 3: Gameplay
 
 Stage 4: Editor
 - This is the part where we work on the Editor itself
+
+## Massive Thanks
+
+- [osu!lazer](https://github.com/ppy/osu) - Used as reference for both the code and project organization

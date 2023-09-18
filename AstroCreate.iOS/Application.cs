@@ -1,5 +1,5 @@
-﻿using osu.Framework.iOS;
-using AstroCreate.Game;
+﻿using AstroCreate.Game;
+using osu.Framework.iOS;
 
 namespace AstroCreate.iOS
 {

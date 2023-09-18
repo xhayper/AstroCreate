@@ -3,6 +3,7 @@
     "path": "AstroCreate.sln",
     "projects": [
       "AstroCreate.Game\\AstroCreate.Game.csproj",
+	  "AstroCreate.Game.Tests.Android\\AstroCreate.Game.Tests.Android.csproj",
       "AstroCreate.Resources\\AstroCreate.Resources.csproj",
       "AstroCreate.Android\\AstroCreate.Android.csproj"
     ]

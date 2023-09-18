@@ -6,10 +6,10 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\AstroCreate.Game\AstroCreate.Game.csproj" />
+    <ProjectReference Include="..\AstroCreate.Game\AstroCreate.Game.csproj"/>
   </ItemGroup>
   <ItemGroup Label="Package References">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
+    <PackageReference Include="NUnit3TestAdapter" Version="4.4.2"/>
   </ItemGroup>
 </Project>

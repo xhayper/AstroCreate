@@ -4,10 +4,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AstroCreate.Resources\AstroCreate.Resources.csproj" />
+    <ProjectReference Include="..\AstroCreate.Resources\AstroCreate.Resources.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Framework" Version="2023.914.0" />
+    <PackageReference Include="ppy.osu.Framework" Version="2023.914.0"/>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SimaiSharp">

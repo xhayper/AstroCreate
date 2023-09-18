@@ -10,13 +10,13 @@
     <FileVersion>0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\AstroCreate.Game\AstroCreate.Game.csproj" />
+    <ProjectReference Include="..\AstroCreate.Game\AstroCreate.Game.csproj"/>
   </ItemGroup>
   <ItemGroup Label="Resources">
-    <EmbeddedResource Include="game.ico" />
+    <EmbeddedResource Include="game.ico"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Clowd.Squirrel" Version="2.9.42" />
-    <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
+    <PackageReference Include="Clowd.Squirrel" Version="2.9.42"/>
+    <PackageReference Include="DiscordRichPresence" Version="1.2.1.24"/>
   </ItemGroup>
 </Project>

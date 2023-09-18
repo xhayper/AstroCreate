@@ -1,5 +1,5 @@
-using osu.Framework.Graphics;
 using NUnit.Framework;
+using osu.Framework.Graphics;
 
 namespace AstroCreate.Game.Tests.Visual
 {
