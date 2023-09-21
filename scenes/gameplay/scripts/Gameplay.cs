@@ -1,11 +1,9 @@
 using System.IO;
 using SimaiSharp;
 using Godot;
-using SimaiSharp.Structures;
 
 public partial class Gameplay : Control
 {
-	// public final
 	public static string CHART_TEXT = @"&title=VeRForTe αRtE:VEiN
 &artist=orangentle
 &first=1.065
@@ -359,7 +357,7 @@ E
 ]/1b,{4},,,6,,6,8,{8}7b/1b,6b/2bh[8:11],,,{2}4,4,{8}4,,5b/3b,6b/2b,7b/1b,7bh[4:1]/1b,,5,{4}5-3[8:1],7-5[8:1]/5,7-3[8:1]/5,7/1,4-8[8:1]/2-5[8:1],4/2,{8}7xb/1xb,7xb/1xbh[4:1],,4,{4}4-6[8:1],4/2-4[8:1],4/2-6[8:1],8/2,7-4[8:1]/5-1[8:1],7/5,{8}8xb/2xb,8xb/2xbh[4:1],,{16}8,8,3,3,4,4,5,5,7,7,8,8,7xbh[4:1]/1xb,,,,1,1,6,6,5,5,4,4,2,2,1,1,8xb/2xbh[4:1],,,,{32}7x,6,5,4,7x,6,5,4,7x,6,5,4,8x,7,6,5,8x,7,6,5,8x,7,6,5,8x,1,2,3,8x,1,2,3,8x,1,2,3,8x,7,6,5,8x,7,6,5,{16}4xb,,,,6/2,,6/2,,3,5,3,5,4,5,4,5,{24}4,3,2,1/8,7,6,5/3,2,1,7/8,6,5,{32}4/1,8,7,6,1/5,8/4,7/3,6/2,{16}5b/1b,,,,8b/2b,,,6b/4b,,,7bh[8:27]/Ch[8:3],,,,,,{24}B8/B1,E1,A8/D1f/A1,{2},,,{16}3,2,{2}1h[4:5],,,{16}8xb,3,5,1xbw5b[8:1],6,4,A1f,";
 
 	private SimaiFile file;
-	
+
 	private static Stream GenerateStreamFromString(string s)
 	{
 		var stream = new MemoryStream();
@@ -369,19 +367,22 @@ E
 		stream.Position = 0;
 		return stream;
 	}
-	
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("Hello!");
 		file = new SimaiFile(GenerateStreamFromString(CHART_TEXT));
 		var chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
 
+		GD.Print($"Center => {GetRect()}");
+
+		var x = 0;
 		foreach (var noteCollection in chart.NoteCollections)
 		{
+			x++;
 			foreach (var note in noteCollection.ToArray())
 			{
-				GD.Print($"Note => {note.type}");
+				GD.Print($"Collection => {x}, Note => {(note.slidePaths.Count > 0 ? "Slide" : note.type)}");
 			}
 		}
 	}
