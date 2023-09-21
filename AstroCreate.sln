@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroCreate", "AstroCreate.csproj", "{0D1025BA-A306-4C23-A210-95D6B4A489EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroCreate", "AstroCreate.csproj", "{00DFABC8-72ED-414D-81BD-2A2F96384563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{0D1025BA-A306-4C23-A210-95D6B4A489EF}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{00DFABC8-72ED-414D-81BD-2A2F96384563}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal

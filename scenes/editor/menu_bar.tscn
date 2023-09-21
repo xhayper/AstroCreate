@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d3sorvkt2l18s"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 40.0
+
+[node name="File" type="MenuButton" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "File
+"
+item_count = 3
+popup/item_0/text = "Open folder"
+popup/item_0/id = 0
+popup/item_1/text = "Close folder"
+popup/item_1/id = 1
+popup/item_2/text = "Exit"
+popup/item_2/id = 2
+
+[node name="Export" type="MenuButton" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Export
+"
+item_count = 2
+popup/item_0/text = "AstroDX"
+popup/item_0/id = 0
+popup/item_1/text = "Simai"
+popup/item_1/id = 1
