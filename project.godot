@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="AstroCreate"
-run/main_scene="res://scenes/gameplay/gameplay.tscn"
+run/main_scene="res://scenes/test_scene/test_scene.tscn"
 config/features=PackedStringArray("4.1", "C#", "Mobile")
 config/icon="res://icon.svg"
 
