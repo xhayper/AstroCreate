@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/AstroCreate/Gameplay.cs" id="1_a5oqi"]
 
-[node name="Scene" type="Node2D"]
+[node name="Node2D" type="Node2D"]
 script = ExtResource("1_a5oqi")

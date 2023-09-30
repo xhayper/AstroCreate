@@ -7,7 +7,7 @@ using SimaiSharp.Structures;
 
 namespace AstroCreate;
 
-public partial class Gameplay : Control
+public partial class Gameplay : Node2D
 {
     public static string CHART_TEXT = @"&title=VeRForTe αRtE:VEiN
 &artist=orangentle
@@ -378,8 +378,6 @@ E
     {
         file = new SimaiFile(GenerateStreamFromString(CHART_TEXT));
         var chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
-
-        GD.Print($"Center => {GetRect()}");
 
         var x = 0;
         foreach (var noteCollection in chart.NoteCollections)
