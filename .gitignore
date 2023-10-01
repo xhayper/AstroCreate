@@ -1,9 +1,19 @@
 #  Godot 4+ specific ignores
 .godot/
 
-# User defined
-.vscode/
+# Build
 build/
+
+# Jetbrains
 .idea/
 
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# macOS
 .DS_Store
