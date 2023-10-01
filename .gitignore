@@ -2,7 +2,8 @@
 .godot/
 
 # Build
-build/
+build/*
+!build/.gitkeep
 
 # Jetbrains
 .idea/
