@@ -4,7 +4,7 @@ namespace AstroDX.Utilities;
 
 public static class Trigonometry
 {
-    public const float Tau = Mathf.Tau;
+    public const float Tau = Mathf.Pi * 2;
 
     public static Vector2 Rotate(in this Vector2 v, in float degreesRad)
     {

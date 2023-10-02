@@ -8,7 +8,7 @@ namespace AstroCreate.Utilities;
 
 public static class NoteUtility
 {
-    private static float GetRotation(in Location location)
+    public static float GetRotation(in Location location)
     {
         const float initialAngle = Trigonometry.Tau / 4f - Trigonometry.Tau / 16f;
 
@@ -26,14 +26,14 @@ public static class NoteUtility
         return GetPositionRadial(GetRotation(location), radius);
     }
 
-    private static Vector2 GetPositionRadial(in float rotationRadians,
+    public static Vector2 GetPositionRadial(in float rotationRadians,
         in float radius = RenderManager.PlayFieldRadius)
     {
         return new Vector2(Mathf.Cos(rotationRadians) * radius,
             Mathf.Sin(rotationRadians) * radius);
     }
 
-    private static float GetRadiusFromCenter(Location location)
+    public static float GetRadiusFromCenter(Location location)
     {
         return location.group switch
         {
