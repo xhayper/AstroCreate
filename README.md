@@ -1,6 +1,9 @@
 # AstroCreate
 
-Simai chart editor with [AstroDX](https://github.com/2394425147/maipaddx) complatibility designed in mind 
+Simai chart editor with [AstroDX](https://github.com/2394425147/maipaddx) compatibility designed in mind
+
+Project paused.
+Currently is in experimental stage too.
 
 [Mockup](https://www.figma.com/file/VMOmHLraTAABRKBXRqup8d/AstroCreate-Mockup?type=design&node-id=0%3A1&mode=design&t=jaJ4aesioJgZMtZ3-1)
 
