@@ -14,11 +14,11 @@ Current Stage: 2
 Stage 1: Mock up
 - We will be creating our mockup for the UI first before working on the actual editor
 
-Stage 2: UI
-- We will work on the UI from our mockup
-
-Stage 3: Gameplay
+Stage 2: Gameplay
 - We will be working on the gameplay viewer
+
+Stage 3: UI
+- We will work on the UI from our mockup
 
 Stage 4: Editor
 - This is the part where we work on the Editor itself
