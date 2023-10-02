@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AstroDX.Contexts.Gameplay.SlideGenerators;
+using Godot;
 using SimaiSharp.Structures;
 
 namespace AstroCreate.Utilities;
@@ -8,30 +10,50 @@ public class SlideUtility
 {
     public static readonly IReadOnlyList<Location> TAP_LIST = new[]
     {
-        new Location(1, NoteGroup.ASensor), new Location(2, NoteGroup.ASensor), new Location(3, NoteGroup.ASensor),
-        new Location(4, NoteGroup.ASensor), new Location(5, NoteGroup.ASensor), new Location(6, NoteGroup.ASensor),
-        new Location(7, NoteGroup.ASensor), new Location(8, NoteGroup.ASensor)
+        new Location(0, NoteGroup.Tap), new Location(1, NoteGroup.Tap), new Location(2, NoteGroup.Tap),
+        new Location(3, NoteGroup.Tap), new Location(4, NoteGroup.Tap), new Location(5, NoteGroup.Tap),
+        new Location(6, NoteGroup.Tap), new Location(7, NoteGroup.Tap)
     };
 
-    public static SlideGenerator? MakeSlideGenerator(SlideSegment segment)
+    public static SlideGenerator? MakeSlideGenerator(Location startLocation, SlideSegment segment)
     {
-        if (segment.vertices.Count < 2)
-            return null;
+        var vertices = segment.vertices.ToList();
+        vertices.Insert(0, startLocation);
 
         return segment.slideType switch
         {
-            SlideType.CurveCcw => new CurveCcwGenerator(segment.vertices),
-            SlideType.CurveCw => new CurveCwGenerator(segment.vertices),
-            SlideType.EdgeCurveCcw => new EdgeCurveCcwGenerator(segment.vertices),
-            SlideType.EdgeCurveCw => new EdgeCurveCwGenerator(segment.vertices),
-            SlideType.EdgeFold => new EdgeFoldGenerator(segment.vertices),
-            SlideType.Fold => new FoldGenerator(segment.vertices),
-            SlideType.RingCcw => new RingCcwGenerator(segment.vertices),
-            SlideType.RingCw => new RingCwGenerator(segment.vertices),
-            SlideType.ZigZagS => new ZigZagSGenerator(segment.vertices),
-            SlideType.ZigZagZ => new ZigZagSGenerator(segment.vertices),
-            SlideType.StraightLine => new StraightGenerator(segment.vertices),
+            SlideType.CurveCcw => new CurveCcwGenerator(vertices),
+            SlideType.CurveCw => new CurveCwGenerator(vertices),
+            SlideType.EdgeCurveCcw => new EdgeCurveCcwGenerator(vertices),
+            SlideType.EdgeCurveCw => new EdgeCurveCwGenerator(vertices),
+            SlideType.EdgeFold => new EdgeFoldGenerator(vertices),
+            SlideType.Fold => new FoldGenerator(vertices),
+            SlideType.RingCcw => new RingCcwGenerator(vertices),
+            SlideType.RingCw => new RingCwGenerator(vertices),
+            SlideType.ZigZagS => new ZigZagSGenerator(vertices),
+            SlideType.ZigZagZ => new ZigZagZGenerator(vertices),
+            SlideType.StraightLine => new StraightGenerator(vertices),
             _ => null
         };
+    }
+
+    public static IReadOnlyList<SlideGenerator> MakeSlideGenerator(Note note, SlidePath path)
+    {
+        var generators = new List<SlideGenerator>();
+        var startPosition = note.location;
+
+        foreach (var segment in path.segments)
+        {
+            foreach (var verticies in segment.vertices)
+                GD.Print(segment.slideType, " | ",
+                    startPosition.group, startPosition.index, "=>", verticies.group, verticies.index);
+
+            var generator = MakeSlideGenerator(startPosition, segment);
+            startPosition = segment.vertices.Last();
+            
+            if (generator != null) generators.Add(generator);
+        }
+
+        return generators.AsReadOnly();
     }
 }

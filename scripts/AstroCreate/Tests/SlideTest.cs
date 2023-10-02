@@ -1,50 +1,57 @@
+using System.Collections.Generic;
+using System.Linq;
 using AstroCreate.Utilities;
-using AstroDX.Contexts.Gameplay.SlideGenerators;
 using Godot;
+using SimaiSharp;
 
 namespace AstroCreate.Tests;
 
 public partial class SlideTest : Node
 {
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    public override async void _Ready()
     {
-        var squarePrefab = ResourceLoader.Load<PackedScene>("res://scenes/test_scene/prefabs/smol_square.tscn")
+        var squarePrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/slide.tscn")
             .Instantiate() as Node2D;
 
-        for (var x = 0; x < SlideUtility.TAP_LIST.Count; x++)
+        var chartData = FileAccess.Open("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/maidata.txt",
+            FileAccess.ModeFlags.Read).GetAsText();
+
+        var chartDataStream = TextUtility.GenerateStreamFromString(chartData);
+
+        var file = new SimaiFile(chartDataStream);
+        var chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
+
+        foreach (var noteCollection in chart.NoteCollections)
+        foreach (var note in noteCollection.ToArray())
         {
-            for (var y = 0; y < SlideUtility.TAP_LIST.Count; y++)
-            {
-                GD.Print($"{x} | {y}");
+            if (note.slidePaths.Count <= 0) continue;
 
-                if (x == y) continue;
-                if (x != 0) continue;
+            var slideList = new List<Node2D>();
 
-                var START_LOCATION = SlideUtility.TAP_LIST[x];
-                var END_LOCATION = SlideUtility.TAP_LIST[y];
+            GD.Print(note.location.group, note.location.index);
 
-                var LOCATION_LIST = new[] { START_LOCATION, END_LOCATION };
-
-                var slideGenerator = new StraightGenerator(LOCATION_LIST);
-
-                for (float i = 0; i < 1; i += .1f)
+            foreach (var generator in note.slidePaths
+                         .Select(slidePath => SlideUtility.MakeSlideGenerator(note, slidePath))
+                         .SelectMany(slideGenerators => slideGenerators))
+                for (var i = 0f; i < 1; i += .05f)
                 {
                     Vector2 location;
                     float rotation;
 
-                    slideGenerator.GetPoint(i, out location, out rotation);
+                    generator.GetPoint(i, out location, out rotation);
 
                     var square = squarePrefab.Duplicate() as Node2D;
-                    // GetViewport().GetVisibleRect().Size
-                    square.Position = location * new Vector2(980, 980);
+                    square.Position = location * 50 + GetViewport().GetVisibleRect().Size / 2;
                     square.Rotation = rotation;
                     AddChild(square);
 
-                    GD.Print(
-                        $"{START_LOCATION.group} {START_LOCATION.index} => {END_LOCATION.group} {END_LOCATION.index} | Location: {location}, Rotation: {rotation} | t: {i}");
+                    slideList.Add(square);
                 }
-            }
+
+            await ToSignal(GetTree().CreateTimer(2.5), "timeout");
+
+            foreach (var slide in slideList) slide.QueueFree();
         }
     }
 
