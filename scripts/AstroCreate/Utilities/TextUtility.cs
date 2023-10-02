@@ -2,7 +2,7 @@
 
 namespace AstroCreate.Utilities;
 
-public class TextUtility
+public static class TextUtility
 {
     public static Stream GenerateStreamFromString(string s)
     {

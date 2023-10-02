@@ -6,7 +6,7 @@ using SimaiSharp.Structures;
 
 namespace AstroCreate.Utilities;
 
-public class SlideUtility
+public static class SlideUtility
 {
     public static readonly IReadOnlyList<Location> TAP_LIST = new[]
     {
@@ -50,7 +50,7 @@ public class SlideUtility
 
             var generator = MakeSlideGenerator(startPosition, segment);
             startPosition = segment.vertices.Last();
-            
+
             if (generator != null) generators.Add(generator);
         }
 
