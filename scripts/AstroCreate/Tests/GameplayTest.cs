@@ -16,13 +16,13 @@ public partial class GameplayTest : Node
         var touchPrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/touch.tscn")
             .Instantiate() as Node2D;
 
-        var chartData = FileAccess.Open("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/maidata.txt",
+        var chartData = FileAccess.Open("res://charts/PANDORA PARADOXXX/maidata.txt",
             FileAccess.ModeFlags.Read).GetAsText();
 
         var chartDataStream = TextUtility.GenerateStreamFromString(chartData);
 
         var file = new SimaiFile(chartDataStream);
-        var chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
+        var chart = SimaiConvert.Deserialize(file.GetValue("inote_6"));
 
         foreach (var noteCollection in chart.NoteCollections)
         {
@@ -66,11 +66,7 @@ public partial class GameplayTest : Node
 
                         var tween = CreateTween();
                         tween.TweenProperty(touch, "position", modifiedPosition, .25);
-                        tween.Finished += async () =>
-                        {
-                            await ToSignal(GetTree().CreateTimer(note.length.GetValueOrDefault(.5f)), "timeout");
-                            touch.QueueFree();
-                        };
+                        tween.Finished += () => touch.QueueFree();
                         tween.Play();
                     }
 
