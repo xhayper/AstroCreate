@@ -11,78 +11,133 @@ namespace AstroCreate.Tests;
 
 public partial class GameplayTest : Node
 {
-    // Called when the node enters the scene tree for the first time.
-    public override async void _Ready()
-    {
-        var touchPrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/touch.tscn")
-            .Instantiate() as Node2D;
+    // public AudioStreamPlayer bgMusicPlayer;
 
-        var chartData = FileAccess.Open("res://charts/PANDORA PARADOXXX/maidata.txt",
+    public MaiChart chart;
+    public float firstNoteTime;
+    public NoteCollection[] noteCollections;
+
+    public int noteIndex;
+
+    // private AudioStream slideNoise = ResourceLoader.Load<AudioStream>("res://sounds/slide.wav");
+    // private AudioStream tapNoise = ResourceLoader.Load<AudioStream>("res://sounds/tap.wav");
+    public double timeElapsed;
+
+    private Node2D touchPrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/touch.tscn")
+        .Instantiate() as Node2D;
+
+    public AudioStreamPlayer CreateStreamPlayer(string path)
+    {
+        return CreateStreamPlayer(ResourceLoader.Load<AudioStream>(path));
+    }
+
+    public AudioStreamPlayer CreateStreamPlayer(AudioStream audioStream)
+    {
+        var audioStreamPlayer = new AudioStreamPlayer();
+        audioStreamPlayer.Stream = audioStream;
+        return audioStreamPlayer;
+    }
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        var chartData = FileAccess.Open("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/maidata.txt",
             FileAccess.ModeFlags.Read).GetAsText();
 
         var chartDataStream = TextUtility.GenerateStreamFromString(chartData);
 
         var file = new SimaiFile(chartDataStream);
-        var chart = SimaiConvert.Deserialize(file.GetValue("inote_6"));
+        var firstTime = file.GetValue("first");
 
-        for (var i = 0; i < chart.NoteCollections.Length; i++)
-        {
-            var noteCollection = chart.NoteCollections.ToArray()[i];
+        chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
+        noteCollections = chart.NoteCollections.ToArray();
 
-            foreach (var note in noteCollection.ToArray())
-                if (note.slidePaths.Count > 0)
-                {
-                    var slide = new Slide(this, note, note.slidePaths);
+        if (!float.TryParse(firstTime, out firstNoteTime)) firstNoteTime = noteCollections[0].time;
 
-                    foreach (var node in slide.SlideNodeList) AddChild(node);
-
-                    slide.SetVisible(.5f);
-
-                    async Task Func()
-                    {
-                        for (var i = RenderManager.SlideSpacing; i < slide.length; i += RenderManager.SlideSpacing)
-                        {
-                            slide.SetVisible(i / slide.length);
-                            await ToSignal(GetTree().CreateTimer(.05), "timeout");
-                        }
-
-                        slide.QueueFree();
-                    }
-
-                    Func();
-                }
-                else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
-                {
-                    GD.Print($"{note.type} | {note.location.group}{note.location.index}");
-
-                    async Task Func()
-                    {
-                        var gridPosition = NoteUtility.GetPosition(note.location) * 50;
-                        var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
-                        modifiedPosition.X += gridPosition.X;
-                        modifiedPosition.Y += -gridPosition.Y;
-
-                        var touch = touchPrefab.Duplicate() as Node2D;
-                        touch.Position = GetViewport().GetVisibleRect().Size / 2;
-                        touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
-                        AddChild(touch);
-
-                        var tween = CreateTween();
-                        tween.TweenProperty(touch, "position", modifiedPosition, .25);
-                        tween.Finished += () => touch.QueueFree();
-                        tween.Play();
-                    }
-
-                    Func();
-                }
-
-            if (i < chart.NoteCollections.Length - 1)
-                await ToSignal(GetTree().CreateTimer(chart.NoteCollections.ToArray()[i + 1].time - noteCollection.time), "timeout");
-        }
+        // var musicSoundPlayer = CreateStreamPlayer("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/track.mp3");
+        // musicSoundPlayer.Finished += () => musicSoundPlayer.QueueFree();
+        // AddChild(musicSoundPlayer);
+        // musicSoundPlayer.Play();
+        // bgMusicPlayer = musicSoundPlayer;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        // if (bgMusicPlayer.Stream.GetLength() - 1f > timeElapsed &&
+        //     bgMusicPlayer.GetPlaybackPosition() - timeElapsed >= .1f)
+        //     bgMusicPlayer.Seek((float)timeElapsed);
+
+        var noteCollection = noteCollections[noteIndex];
+
+        if (timeElapsed >= noteCollection.time + firstNoteTime)
+        {
+            noteIndex++;
+            timeElapsed += delta;
+        }
+        else
+        {
+            timeElapsed += delta;
+            return;
+        }
+
+        foreach (var note in noteCollection.ToArray())
+            if (note.slidePaths.Count > 0)
+            {
+                var slide = new Slide(this, note, note.slidePaths);
+
+                foreach (var node in slide.SlideNodeList) AddChild(node);
+
+                async Task Func()
+                {
+                    await ToSignal(GetTree().CreateTimer(.5), "timeout");
+
+                    // var slideSoundPlayer = CreateStreamPlayer(slideNoise);
+                    // slideSoundPlayer.Finished += () => slideSoundPlayer.QueueFree();
+                    // AddChild(slideSoundPlayer);
+                    // slideSoundPlayer.Play();
+                    
+                    await ToSignal(GetTree().CreateTimer(2), "timeout");
+
+                    for (var i = RenderManager.SlideSpacing; i < slide.length; i += RenderManager.SlideSpacing)
+                    {
+                        slide.SetVisible(i / slide.length);
+                        await ToSignal(GetTree().CreateTimer(.01), "timeout");
+                    }
+
+                    slide.QueueFree();
+                }
+
+                Func();
+            }
+            else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
+            {
+                GD.Print($"{note.type} | {note.location.group}{note.location.index}");
+
+                async Task Func()
+                {
+                    var gridPosition = NoteUtility.GetPosition(note.location) * 50;
+                    var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
+                    modifiedPosition.X += gridPosition.X;
+                    modifiedPosition.Y += -gridPosition.Y;
+
+                    var touch = touchPrefab.Duplicate() as Node2D;
+                    touch.Position = GetViewport().GetVisibleRect().Size / 2;
+                    touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
+                    AddChild(touch);
+
+                    var tween = CreateTween();
+                    tween.TweenProperty(touch, "position", modifiedPosition, .25);
+                    tween.Finished += () => touch.QueueFree();
+                    tween.Play();
+                }
+
+                Func();
+            }
+
+        // var touchSoundPlayer = CreateStreamPlayer(tapNoise);
+        // touchSoundPlayer.Finished += () => touchSoundPlayer.QueueFree();
+        // AddChild(touchSoundPlayer);
+        // touchSoundPlayer.Play();
     }
 }

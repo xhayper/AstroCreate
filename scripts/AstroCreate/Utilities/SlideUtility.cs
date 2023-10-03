@@ -45,8 +45,8 @@ public static class SlideUtility
         foreach (var segment in path.segments)
         {
             foreach (var verticies in segment.vertices)
-                GD.Print(segment.slideType, " | ",
-                    startPosition.group, startPosition.index, "=>", verticies.group, verticies.index);
+                GD.Print("Slide ", segment.slideType, " | ",
+                    startPosition.group, startPosition.index, " => ", verticies.group, verticies.index);
 
             var generator = MakeSlideGenerator(startPosition, segment);
             startPosition = segment.vertices.Last();

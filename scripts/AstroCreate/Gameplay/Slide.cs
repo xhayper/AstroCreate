@@ -52,6 +52,9 @@ public class Slide
         foreach (var node in SlideNodeList) node.Visible = visible;
     }
 
+    /**
+     * @param t 0-1
+     */
     public void SetVisible(float t)
     {
         var currentLength = 0f;
