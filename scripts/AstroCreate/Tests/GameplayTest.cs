@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AstroCreate.Gameplay;
 using AstroCreate.Utilities;
@@ -24,8 +25,10 @@ public partial class GameplayTest : Node
         var file = new SimaiFile(chartDataStream);
         var chart = SimaiConvert.Deserialize(file.GetValue("inote_6"));
 
-        foreach (var noteCollection in chart.NoteCollections)
+        for (var i = 0; i < chart.NoteCollections.Length; i++)
         {
+            var noteCollection = chart.NoteCollections.ToArray()[i];
+
             foreach (var note in noteCollection.ToArray())
                 if (note.slidePaths.Count > 0)
                 {
@@ -73,7 +76,8 @@ public partial class GameplayTest : Node
                     Func();
                 }
 
-            await ToSignal(GetTree().CreateTimer(.2f), "timeout");
+            if (i < chart.NoteCollections.Length - 1)
+                await ToSignal(GetTree().CreateTimer(chart.NoteCollections.ToArray()[i + 1].time - noteCollection.time), "timeout");
         }
     }
 
