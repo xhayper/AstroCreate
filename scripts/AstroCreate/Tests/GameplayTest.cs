@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AstroCreate.Utilities;
@@ -33,8 +34,6 @@ public partial class GameplayTest : Node
             {
                 var slideList = new List<Node2D>();
 
-                GD.Print(note.location.group, note.location.index);
-
                 foreach (var generator in note.slidePaths
                              .Select(slidePath => SlideUtility.MakeSlideGenerator(note, slidePath))
                              .SelectMany(slideGenerators => slideGenerators))
@@ -44,10 +43,16 @@ public partial class GameplayTest : Node
                         float rotation;
 
                         generator.GetPoint(i, out location, out rotation);
+                        
+                        var gridPosition = location * 50;
+                        var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
+                        modifiedPosition.X += gridPosition.X;
+                        modifiedPosition.Y += -gridPosition.Y;
 
                         var slide = slidePrefab.Duplicate() as Node2D;
-                        slide.Position = location * 50 + GetViewport().GetVisibleRect().Size / 2;
-                        slide.Rotation = rotation;
+                        slide.Position = modifiedPosition;
+                        slide.Rotation = -rotation;
+                        
                         AddChild(slide);
 
                         slideList.Add(slide);
@@ -61,13 +66,19 @@ public partial class GameplayTest : Node
 
                 Func();
             }
-
             else if (note.type is NoteType.Tap or NoteType.Break)
             {
+                GD.Print($"{note.type} | {note.location.group}{note.location.index}");
+                
                 async Task Func()
                 {
+                    var gridPosition = NoteUtility.GetPosition(note.location) * 50;
+                    var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
+                    modifiedPosition.X += gridPosition.X;
+                    modifiedPosition.Y += -gridPosition.Y;
+                    
                     var touch = touchPrefab.Duplicate() as Node2D;
-                    touch.Position = NoteUtility.GetPosition(note.location) * 50 + GetViewport().GetVisibleRect().Size / 2;
+                    touch.Position = modifiedPosition;
                     touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
                     AddChild(touch);
 

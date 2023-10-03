@@ -5,6 +5,6 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = -1.5708
-scale = Vector2(0.25, 0.25)
+rotation = 1.5708
+scale = Vector2(0.25, 0.249061)
 texture = ExtResource("1_w4aox")
