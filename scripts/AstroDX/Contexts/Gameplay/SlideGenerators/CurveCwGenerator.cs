@@ -35,8 +35,8 @@ public sealed class CurveCwGenerator : SlideGenerator
                                  Trigonometry.GetTangentAngleDelta(CurveRadius, RingRadius, false);
 
         _startPoint = GetPositionRadial(startRotation);
-        _tangentInPoint = GetPositionRadial(_tangentInRotation);
-        _tangentOutPoint = GetPositionRadial(tangentOutRotation);
+        _tangentInPoint = GetPositionRadial(_tangentInRotation, CurveRadius);
+        _tangentOutPoint = GetPositionRadial(tangentOutRotation, CurveRadius);
         _endPoint = GetPositionRadial(endRotation);
 
         var startSegment = _tangentInPoint - _startPoint;
