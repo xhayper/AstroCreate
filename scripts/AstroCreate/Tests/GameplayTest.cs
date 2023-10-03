@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AstroCreate.Gameplay;
 using AstroCreate.Utilities;
-using AstroDX.Contexts.Gameplay.PlayerScope;
 using Godot;
 using SimaiSharp;
 using SimaiSharp.Structures;
@@ -14,8 +12,6 @@ public partial class GameplayTest : Node
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
     {
-        var slidePrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/slide.tscn")
-            .Instantiate() as Node2D;
         var touchPrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/touch.tscn")
             .Instantiate() as Node2D;
 
@@ -32,36 +28,14 @@ public partial class GameplayTest : Node
         {
             if (note.slidePaths.Count > 0)
             {
-                var slideList = new List<Node2D>();
+                var slide = new Slide(this, note, note.slidePaths);
 
-                foreach (var generator in note.slidePaths
-                             .Select(slidePath => SlideUtility.MakeSlideGenerator(note, slidePath))
-                             .SelectMany(slideGenerators => slideGenerators))
-                    for (var i = RenderManager.SlideSpacing; i < generator.GetLength(); i += RenderManager.SlideSpacing)
-                    {
-                        Vector2 location;
-                        float rotation;
-
-                        generator.GetPoint(Mathf.Clamp(i / generator.GetLength(), 0, 1), out location, out rotation);
-
-                        var gridPosition = location * 50;
-                        var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
-                        modifiedPosition.X += gridPosition.X;
-                        modifiedPosition.Y += -gridPosition.Y;
-
-                        var slide = slidePrefab.Duplicate() as Node2D;
-                        slide.Position = modifiedPosition;
-                        slide.Rotation = -rotation;
-
-                        AddChild(slide);
-
-                        slideList.Add(slide);
-                    }
+                foreach (var node in slide.SlideNodeList) AddChild(node);
 
                 async Task Func()
                 {
                     await ToSignal(GetTree().CreateTimer(2.5), "timeout");
-                    foreach (var slide in slideList) slide.QueueFree();
+                    slide.QueueFree();
                 }
 
                 Func();
