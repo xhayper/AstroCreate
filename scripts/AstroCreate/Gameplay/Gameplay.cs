@@ -1,6 +1,6 @@
 using Godot;
 
-namespace AstroCreate;
+namespace AstroCreate.Gameplay;
 
 public partial class Gameplay : Node2D
 {

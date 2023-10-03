@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AstroCreate.Utilities;
+using AstroDX.Contexts.Gameplay.PlayerScope;
 using Godot;
 using SimaiSharp;
 using SimaiSharp.Structures;
@@ -36,12 +37,12 @@ public partial class GameplayTest : Node
                 foreach (var generator in note.slidePaths
                              .Select(slidePath => SlideUtility.MakeSlideGenerator(note, slidePath))
                              .SelectMany(slideGenerators => slideGenerators))
-                    for (var i = 0f; i < 1; i += .05f)
+                    for (var i = RenderManager.SlideSpacing; i < generator.GetLength(); i += RenderManager.SlideSpacing)
                     {
                         Vector2 location;
                         float rotation;
 
-                        generator.GetPoint(i, out location, out rotation);
+                        generator.GetPoint(Mathf.Clamp(i / generator.GetLength(), 0, 1), out location, out rotation);
 
                         var gridPosition = location * 50;
                         var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
@@ -65,7 +66,7 @@ public partial class GameplayTest : Node
 
                 Func();
             }
-            else if (note.type is NoteType.Tap or NoteType.Break)
+            else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
             {
                 GD.Print($"{note.type} | {note.location.group}{note.location.index}");
 
