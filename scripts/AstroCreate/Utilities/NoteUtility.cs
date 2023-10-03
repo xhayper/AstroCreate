@@ -46,4 +46,13 @@ public static class NoteUtility
             _ => throw new ArgumentOutOfRangeException()
         };
     }
+    
+    public static float GetRotation(int index) {
+        var startPoint = GetPosition(new Location(0, NoteGroup.CSensor));
+        var endPoint = GetPosition(new Location(index, NoteGroup.Tap));
+        
+        var segment = startPoint - endPoint;
+        
+        return -Mathf.Atan2(segment.Y, segment.X);
+    }
 }

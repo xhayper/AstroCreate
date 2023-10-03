@@ -119,6 +119,8 @@ public partial class GameplayTest : Node
                     modifiedPosition.X += gridPosition.X;
                     modifiedPosition.Y += -gridPosition.Y;
 
+                    var rotation = -Mathf.Atan2(segment.Y, segment.X);
+                    
                     var touch = touchPrefab.Duplicate() as Node2D;
                     touch.Position = GetViewport().GetVisibleRect().Size / 2;
                     touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
