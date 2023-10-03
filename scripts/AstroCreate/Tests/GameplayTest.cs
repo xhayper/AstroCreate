@@ -96,8 +96,6 @@ public partial class GameplayTest : Node
                     // slideSoundPlayer.Finished += () => slideSoundPlayer.QueueFree();
                     // AddChild(slideSoundPlayer);
                     // slideSoundPlayer.Play();
-                    
-                    await ToSignal(GetTree().CreateTimer(2), "timeout");
 
                     for (var i = RenderManager.SlideSpacing; i < slide.length; i += RenderManager.SlideSpacing)
                     {
