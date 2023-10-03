@@ -31,10 +31,16 @@ public partial class GameplayTest : Node
                 var slide = new Slide(this, note, note.slidePaths);
 
                 foreach (var node in slide.SlideNodeList) AddChild(node);
+                
+                slide.SetVisible(.5f);
 
                 async Task Func()
                 {
-                    await ToSignal(GetTree().CreateTimer(2.5), "timeout");
+                    for (var i = 0; i < 100; i++)
+                    {
+                        slide.SetVisible(i / 100f);
+                        await ToSignal(GetTree().CreateTimer(.01), "timeout");
+                    }
                     slide.QueueFree();
                 }
 

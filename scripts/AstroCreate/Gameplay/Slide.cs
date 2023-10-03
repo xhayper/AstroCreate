@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AstroCreate.Utilities;
 using AstroDX.Contexts.Gameplay.PlayerScope;
@@ -14,6 +15,7 @@ public class Slide
 
     public readonly List<Node2D> SlideNodeList = new();
     public readonly List<SlidePath> SlidePaths;
+    public readonly float length = 0;
 
     public Slide(Node parentNode, Note note, List<SlidePath> slidePaths)
     {
@@ -25,6 +27,7 @@ public class Slide
         {
             var slideLength = generator.GetLength();
             var viewportSize = parentNode.GetViewport();
+            length += slideLength;
 
             for (var i = RenderManager.SlideSpacing; i < slideLength; i += RenderManager.SlideSpacing)
             {
@@ -41,6 +44,22 @@ public class Slide
 
                 SlideNodeList.Add(slide);
             }
+        }
+    }
+
+    public void SetVisible(bool visible)
+    {
+        foreach (var node in SlideNodeList) node.Visible = visible;
+    }
+    
+    public void SetVisible(float t)
+    {
+        var currentLength = 0f;
+        
+        foreach (var node in SlideNodeList)
+        {
+            node.Visible = currentLength / length >= Mathf.Clamp(t, 0, 1);
+            currentLength += RenderManager.SlideSpacing;
         }
     }
 
