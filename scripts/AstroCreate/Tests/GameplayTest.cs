@@ -41,7 +41,10 @@ public partial class GameplayTest : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        var chartData = FileAccess.Open("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/maidata.txt",
+        var CHART_NAME = "超熊猫的周遊記（ワンダーパンダートラベラー)";
+        var CHART_DIFF = "5";
+        
+        var chartData = FileAccess.Open($"res://charts/{CHART_NAME}/maidata.txt",
             FileAccess.ModeFlags.Read).GetAsText();
 
         var chartDataStream = TextUtility.GenerateStreamFromString(chartData);
@@ -49,12 +52,12 @@ public partial class GameplayTest : Node
         var file = new SimaiFile(chartDataStream);
         var firstTime = file.GetValue("first");
 
-        chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
+        chart = SimaiConvert.Deserialize(file.GetValue($"inote_{CHART_DIFF}"));
         noteCollections = chart.NoteCollections.ToArray();
 
         if (!float.TryParse(firstTime, out firstNoteTime)) firstNoteTime = noteCollections[0].time;
 
-        // var musicSoundPlayer = CreateStreamPlayer("res://charts/超熊猫的周遊記（ワンダーパンダートラベラー)/track.mp3");
+        // var musicSoundPlayer = CreateStreamPlayer($"res://charts/{CHART_NAME}/track.mp3");
         // musicSoundPlayer.Finished += () => musicSoundPlayer.QueueFree();
         // AddChild(musicSoundPlayer);
         // musicSoundPlayer.Play();
@@ -119,8 +122,6 @@ public partial class GameplayTest : Node
                     modifiedPosition.X += gridPosition.X;
                     modifiedPosition.Y += -gridPosition.Y;
 
-                    var rotation = -Mathf.Atan2(segment.Y, segment.X);
-                    
                     var touch = touchPrefab.Duplicate() as Node2D;
                     touch.Position = GetViewport().GetVisibleRect().Size / 2;
                     touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
