@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AstroCreate.Gameplay;
 using AstroCreate.Utilities;
+using AstroDX.Contexts.Gameplay.PlayerScope;
 using Godot;
 using SimaiSharp;
 using SimaiSharp.Structures;
@@ -24,52 +25,59 @@ public partial class GameplayTest : Node
         var chart = SimaiConvert.Deserialize(file.GetValue("inote_5"));
 
         foreach (var noteCollection in chart.NoteCollections)
-        foreach (var note in noteCollection.ToArray())
         {
-            if (note.slidePaths.Count > 0)
-            {
-                var slide = new Slide(this, note, note.slidePaths);
-
-                foreach (var node in slide.SlideNodeList) AddChild(node);
-                
-                slide.SetVisible(.5f);
-
-                async Task Func()
+            foreach (var note in noteCollection.ToArray())
+                if (note.slidePaths.Count > 0)
                 {
-                    for (var i = 0; i < 100; i++)
+                    var slide = new Slide(this, note, note.slidePaths);
+
+                    foreach (var node in slide.SlideNodeList) AddChild(node);
+
+                    slide.SetVisible(.5f);
+
+                    async Task Func()
                     {
-                        slide.SetVisible(i / 100f);
-                        await ToSignal(GetTree().CreateTimer(.01), "timeout");
+                        for (var i = RenderManager.SlideSpacing; i < slide.length; i += RenderManager.SlideSpacing)
+                        {
+                            slide.SetVisible(i / slide.length);
+                            await ToSignal(GetTree().CreateTimer(.05), "timeout");
+                        }
+
+                        slide.QueueFree();
                     }
-                    slide.QueueFree();
+
+                    Func();
                 }
-
-                Func();
-            }
-            else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
-            {
-                GD.Print($"{note.type} | {note.location.group}{note.location.index}");
-
-                async Task Func()
+                else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
                 {
-                    var gridPosition = NoteUtility.GetPosition(note.location) * 50;
-                    var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
-                    modifiedPosition.X += gridPosition.X;
-                    modifiedPosition.Y += -gridPosition.Y;
+                    GD.Print($"{note.type} | {note.location.group}{note.location.index}");
 
-                    var touch = touchPrefab.Duplicate() as Node2D;
-                    touch.Position = modifiedPosition;
-                    touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
-                    AddChild(touch);
+                    async Task Func()
+                    {
+                        var gridPosition = NoteUtility.GetPosition(note.location) * 50;
+                        var modifiedPosition = GetViewport().GetVisibleRect().Size / 2;
+                        modifiedPosition.X += gridPosition.X;
+                        modifiedPosition.Y += -gridPosition.Y;
 
-                    await ToSignal(GetTree().CreateTimer(note.length.GetValueOrDefault(.5f) + .5f), "timeout");
-                    touch.QueueFree();
+                        var touch = touchPrefab.Duplicate() as Node2D;
+                        touch.Position = GetViewport().GetVisibleRect().Size / 2;
+                        touch.SetMeta("IsBreak", Variant.From(note.type == NoteType.Break));
+                        AddChild(touch);
+
+                        var tween = CreateTween();
+                        tween.TweenProperty(touch, "position", modifiedPosition, .25);
+                        tween.Finished += async () =>
+                        {
+                            await ToSignal(GetTree().CreateTimer(note.length.GetValueOrDefault(.5f)), "timeout");
+                            touch.QueueFree();
+                        };
+                        tween.Play();
+                    }
+
+                    Func();
                 }
 
-                Func();
-            }
-
-            await ToSignal(GetTree().CreateTimer(note.length.GetValueOrDefault(.5f)), "timeout");
+            await ToSignal(GetTree().CreateTimer(.2f), "timeout");
         }
     }
 
