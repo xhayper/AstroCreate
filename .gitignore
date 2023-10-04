@@ -18,3 +18,8 @@ build/*
 
 # macOS
 .DS_Store
+
+# Copyright issues
+charts/**/*.ogv
+charts/**/*.mp4
+charts/**/*.mp3
