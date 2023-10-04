@@ -14,7 +14,7 @@ public class Slide
 
     public readonly float length;
 
-    public readonly List<Node2D> SlideNodeList = new();
+    public readonly List<List<Node2D>> SlideNodeList = new();
     public readonly List<SlidePath> SlidePaths;
 
     public Slide(Node parentNode, Note note, List<SlidePath> slidePaths)
@@ -25,6 +25,8 @@ public class Slide
                      .Select(slidePath => SlideUtility.MakeSlideGenerator(note, slidePath))
                      .SelectMany(slideGenerators => slideGenerators))
         {
+            List<Node2D> nodeList = new();
+
             var slideLength = generator.GetLength();
             var viewportSize = parentNode.GetViewport();
             length += slideLength;
@@ -42,14 +44,16 @@ public class Slide
                 slide.Position = modifiedPosition;
                 slide.Rotation = -rotation;
 
-                SlideNodeList.Add(slide);
+                nodeList.Add(slide);
             }
+
+            SlideNodeList.Add(nodeList);
         }
     }
 
     public void SetVisible(bool visible)
     {
-        foreach (var node in SlideNodeList) node.Visible = visible;
+        foreach (var node in SlideNodeList.SelectMany(pathNodeList => pathNodeList)) node.Visible = visible;
     }
 
     /**
@@ -59,7 +63,7 @@ public class Slide
     {
         var currentLength = 0f;
 
-        foreach (var node in SlideNodeList)
+        foreach (var node in SlideNodeList.SelectMany(pathNodeList => pathNodeList))
         {
             node.Visible = currentLength / length >= Mathf.Clamp(t, 0, 1);
             currentLength += RenderManager.SlideSpacing;
@@ -68,6 +72,6 @@ public class Slide
 
     public void QueueFree()
     {
-        foreach (var node in SlideNodeList) node.QueueFree();
+        foreach (var node in SlideNodeList.SelectMany(pathNodeList => pathNodeList)) node.QueueFree();
     }
 }

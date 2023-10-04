@@ -43,7 +43,7 @@ public partial class GameplayTest : Node
     {
         var CHART_NAME = "超熊猫的周遊記（ワンダーパンダートラベラー)";
         var CHART_DIFF = "5";
-        
+
         var chartData = FileAccess.Open($"res://charts/{CHART_NAME}/maidata.txt",
             FileAccess.ModeFlags.Read).GetAsText();
 
@@ -89,7 +89,7 @@ public partial class GameplayTest : Node
             {
                 var slide = new Slide(this, note, note.slidePaths);
 
-                foreach (var node in slide.SlideNodeList) AddChild(node);
+                foreach (var node in slide.SlideNodeList.SelectMany(pathNodeList => pathNodeList)) AddChild(node);
 
                 async Task Func()
                 {
