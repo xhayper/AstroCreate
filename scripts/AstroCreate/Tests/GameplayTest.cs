@@ -13,6 +13,8 @@ public partial class GameplayTest : Node
 {
     // public AudioStreamPlayer bgMusicPlayer;
 
+    public VideoStreamPlayer bgVideoPlayer;
+
     public MaiChart chart;
     public float firstNoteTime;
     public NoteCollection[] noteCollections;
@@ -41,7 +43,9 @@ public partial class GameplayTest : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        var CHART_NAME = "超熊猫的周遊記（ワンダーパンダートラベラー)";
+        bgVideoPlayer = GetNode<VideoStreamPlayer>("Node2D/VideoStreamPlayer");
+        
+        var CHART_NAME = "超熊猫的周遊記（ワンダーパンダートラベラー）";
         var CHART_DIFF = "5";
 
         var chartData = FileAccess.Open($"res://charts/{CHART_NAME}/maidata.txt",
@@ -62,6 +66,10 @@ public partial class GameplayTest : Node
         // AddChild(musicSoundPlayer);
         // musicSoundPlayer.Play();
         // bgMusicPlayer = musicSoundPlayer;
+
+        // var videoStreamPlayer = ResourceLoader.Load<VideoStream>($"res://charts/{CHART_NAME}/pv.ogv");
+        // bgVideoPlayer.Stream = videoStreamPlayer;
+        // bgVideoPlayer.Play();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
