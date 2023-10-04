@@ -88,9 +88,20 @@ public partial class GameplayTest : Node
     public override void _Process(double delta)
     {
         if (bgMusicPlayer != null)
-            if (bgMusicPlayer.Stream.GetLength() - 1f > timeElapsed &&
+        {
+            if (!bgMusicPlayer.Playing)
+                return;
+
+            if (bgMusicPlayer.Stream.GetLength() >= timeElapsed &&
                 bgMusicPlayer.GetPlaybackPosition() - timeElapsed >= .1f)
                 bgMusicPlayer.Seek((float)timeElapsed);
+
+            if (noteIndex >= noteCollections.Length &&
+                bgMusicPlayer.Stream.GetLength() >= timeElapsed)
+                timeElapsed += delta;
+        }
+
+        if (noteIndex >= noteCollections.Length) return;
 
         var noteCollection = noteCollections[noteIndex];
 
