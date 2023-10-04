@@ -11,9 +11,8 @@ namespace AstroCreate.Tests;
 
 public partial class GameplayTest : Node
 {
-    // public AudioStreamPlayer bgMusicPlayer;
-
-    public VideoStreamPlayer bgVideoPlayer;
+    public AudioStreamPlayer? bgMusicPlayer;
+    public VideoStreamPlayer? bgVideoPlayer;
 
     public MaiChart chart;
     public float firstNoteTime;
@@ -21,8 +20,14 @@ public partial class GameplayTest : Node
 
     public int noteIndex;
 
-    // private AudioStream slideNoise = ResourceLoader.Load<AudioStream>("res://sounds/slide.wav");
-    // private AudioStream tapNoise = ResourceLoader.Load<AudioStream>("res://sounds/tap.wav");
+    private AudioStream? slideNoise = ResourceLoader.Exists("res://sounds/slide.wav")
+        ? ResourceLoader.Load<AudioStream>("res://sounds/slide.wav")
+        : null;
+
+    private AudioStream? tapNoise = ResourceLoader.Exists("res://sounds/slide.wav")
+        ? ResourceLoader.Load<AudioStream>("res://sounds/tap.wav")
+        : null;
+
     public double timeElapsed;
 
     private Node2D touchPrefab = ResourceLoader.Load<PackedScene>("res://prefabs/note/touch.tscn")
@@ -44,7 +49,7 @@ public partial class GameplayTest : Node
     public override void _Ready()
     {
         bgVideoPlayer = GetNode<VideoStreamPlayer>("Node2D/VideoStreamPlayer");
-        
+
         var CHART_NAME = "超熊猫的周遊記（ワンダーパンダートラベラー）";
         var CHART_DIFF = "5";
 
@@ -61,23 +66,31 @@ public partial class GameplayTest : Node
 
         if (!float.TryParse(firstTime, out firstNoteTime)) firstNoteTime = noteCollections[0].time;
 
-        // var musicSoundPlayer = CreateStreamPlayer($"res://charts/{CHART_NAME}/track.mp3");
-        // musicSoundPlayer.Finished += () => musicSoundPlayer.QueueFree();
-        // AddChild(musicSoundPlayer);
-        // musicSoundPlayer.Play();
-        // bgMusicPlayer = musicSoundPlayer;
+        if (
+            ResourceLoader.Exists($"res://charts/{CHART_NAME}/track.mp3"))
+        {
+            var musicSoundPlayer = CreateStreamPlayer($"res://charts/{CHART_NAME}/track.mp3");
+            musicSoundPlayer.Finished += () => musicSoundPlayer.QueueFree();
+            AddChild(musicSoundPlayer);
+            musicSoundPlayer.Play();
+            bgMusicPlayer = musicSoundPlayer;
+        }
 
-        // var videoStreamPlayer = ResourceLoader.Load<VideoStream>($"res://charts/{CHART_NAME}/pv.ogv");
-        // bgVideoPlayer.Stream = videoStreamPlayer;
-        // bgVideoPlayer.Play();
+        if (ResourceLoader.Exists($"res://charts/{CHART_NAME}/pv.ogv"))
+        {
+            var videoStreamPlayer = ResourceLoader.Load<VideoStream>($"res://charts/{CHART_NAME}/pv.ogv");
+            bgVideoPlayer.Stream = videoStreamPlayer;
+            bgVideoPlayer.Play();
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        // if (bgMusicPlayer.Stream.GetLength() - 1f > timeElapsed &&
-        //     bgMusicPlayer.GetPlaybackPosition() - timeElapsed >= .1f)
-        //     bgMusicPlayer.Seek((float)timeElapsed);
+        if (bgMusicPlayer != null)
+            if (bgMusicPlayer.Stream.GetLength() - 1f > timeElapsed &&
+                bgMusicPlayer.GetPlaybackPosition() - timeElapsed >= .1f)
+                bgMusicPlayer.Seek((float)timeElapsed);
 
         var noteCollection = noteCollections[noteIndex];
 
@@ -103,10 +116,13 @@ public partial class GameplayTest : Node
                 {
                     await ToSignal(GetTree().CreateTimer(.5), "timeout");
 
-                    // var slideSoundPlayer = CreateStreamPlayer(slideNoise);
-                    // slideSoundPlayer.Finished += () => slideSoundPlayer.QueueFree();
-                    // AddChild(slideSoundPlayer);
-                    // slideSoundPlayer.Play();
+                    if (slideNoise != null)
+                    {
+                        var slideSoundPlayer = CreateStreamPlayer(slideNoise);
+                        slideSoundPlayer.Finished += () => slideSoundPlayer.QueueFree();
+                        AddChild(slideSoundPlayer);
+                        slideSoundPlayer.Play();
+                    }
 
                     for (var i = RenderManager.SlideSpacing; i < slide.length; i += RenderManager.SlideSpacing)
                     {
@@ -144,9 +160,12 @@ public partial class GameplayTest : Node
                 Func();
             }
 
-        // var touchSoundPlayer = CreateStreamPlayer(tapNoise);
-        // touchSoundPlayer.Finished += () => touchSoundPlayer.QueueFree();
-        // AddChild(touchSoundPlayer);
-        // touchSoundPlayer.Play();
+        if (tapNoise != null)
+        {
+            var touchSoundPlayer = CreateStreamPlayer(tapNoise);
+            touchSoundPlayer.Finished += () => touchSoundPlayer.QueueFree();
+            AddChild(touchSoundPlayer);
+            touchSoundPlayer.Play();
+        }
     }
 }
