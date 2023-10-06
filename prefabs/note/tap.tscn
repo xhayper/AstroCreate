@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo7oonetnlo43"]
+
+[ext_resource type="Script" path="res://scripts/AstroCreate/Tests/NoteTest.cs" id="1_s35cq"]
+[ext_resource type="Texture2D" uid="uid://1rf1y066rqni" path="res://textures/AstroDX/Notes/IMG_GAME_SINGLE_TAP_1.png" id="2_g8ias"]
+[ext_resource type="Texture2D" uid="uid://bboud00s2vd4u" path="res://textures/AstroDX/Notes/IMG_GAME_TIMING_HINT_0.png" id="3_lbmfi"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_s35cq")
+metadata/IsBreak = false
+
+[node name="Note" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_g8ias")
+
+[node name="Ring" type="Sprite2D" parent="."]
+position = Vector2(-27.5, 0)
+rotation = 1.5708
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_lbmfi")

@@ -23,3 +23,6 @@ build/*
 charts/**/*.ogv
 charts/**/*.mp4
 charts/**/*.mp3
+charts/**/*.ogv.import
+charts/**/*.mp4.import
+charts/**/*.mp3.import

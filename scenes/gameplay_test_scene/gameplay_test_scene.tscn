@@ -1,20 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfjcyhtao4qf1"]
 
-[ext_resource type="Script" path="res://scripts/AstroCreate/Tests/GameplayTest.cs" id="1_c1tkm"]
-[ext_resource type="Texture2D" uid="uid://dr0nexke3cxmx" path="res://textures/outline.png" id="2_i1f6j"]
+[ext_resource type="Script" path="res://scripts/AstroCreate/Tests/GameplayTest.cs" id="1_sno0r"]
+[ext_resource type="Texture2D" uid="uid://dr0nexke3cxmx" path="res://textures/outline.png" id="2_4dssu"]
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_c1tkm")
+script = ExtResource("1_sno0r")
 
 [node name="Outline" type="Sprite2D" parent="."]
 z_index = 1
 position = Vector2(640, 360)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_i1f6j")
+texture = ExtResource("2_4dssu")
 
 [node name="Node2D" type="Node2D" parent="."]
-position = Vector2(640, 360)
-scale = Vector2(1.6, 1.6)
+position = Vector2(635, 360)
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Node2D"]
 anchors_preset = 8
@@ -30,3 +29,5 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+volume_db = -80.0
+autoplay = true

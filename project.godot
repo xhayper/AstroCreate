@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="AstroCreate"
-run/main_scene="res://scenes/test_scene/test_scene.tscn"
-config/features=PackedStringArray("4.2", "C#", "Mobile")
+run/main_scene="res://scenes/gameplay_test_scene/gameplay_test_scene.tscn"
+config/features=PackedStringArray("4.1", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Timeline="*res://scripts/AstroCreate/Gameplay/Timeline.cs"
+Settings="*res://scripts/AstroCreate/Editor/Settings.cs"
 
 [display]
 

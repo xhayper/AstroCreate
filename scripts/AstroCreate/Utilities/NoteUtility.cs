@@ -54,6 +54,6 @@ public static class NoteUtility
 
         var segment = startPoint - endPoint;
 
-        return -Mathf.Atan2(segment.Y, segment.X);
+        return Mathf.Atan2(segment.Y, segment.X);
     }
 }

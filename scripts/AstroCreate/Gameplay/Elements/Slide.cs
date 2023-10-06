@@ -72,6 +72,7 @@ public class Slide
 
     public void QueueFree()
     {
-        foreach (var node in SlideNodeList.SelectMany(pathNodeList => pathNodeList)) node.QueueFree();
+        foreach (var node in SlideNodeList.SelectMany(pathNodeList => pathNodeList)
+                ) node.QueueFree();
     }
 }
