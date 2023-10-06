@@ -135,7 +135,14 @@ public partial class GameplayTest : Node
 
         var noteCollection = noteCollections[noteIndex];
 
-        if (timeline.Time >= noteCollection.time + firstNoteTime) noteIndex++;
+        if (timeline.Time >= noteCollection.time + firstNoteTime)
+        {
+            noteIndex++;
+        }
+        else
+        {
+            return;
+        }
 
         foreach (var note in noteCollection.ToArray())
             if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
