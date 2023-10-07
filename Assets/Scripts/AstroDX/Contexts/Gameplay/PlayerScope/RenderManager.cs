@@ -8,5 +8,7 @@ namespace AstroDX.Contexts.Gameplay.PlayerScope
         public const float AreaDRadius = 3.8f;
         public const float AreaERadius = 2.8114f;
         public const float CenterRadius = 1.7f;
+
+        public const float SlideSpacing = .55f;
     }
 }
