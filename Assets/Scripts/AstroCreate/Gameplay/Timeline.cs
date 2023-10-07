@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 #nullable enable
@@ -24,7 +23,7 @@ namespace AstroCreate.Gameplay
 
         public bool Paused
         {
-            get => !audioStreamPlayer?.isPlaying ?? _paused;
+            get => audioStreamPlayer != null ? audioStreamPlayer.isPlaying : _paused;
             set
             {
                 if (audioStreamPlayer != null)
@@ -43,7 +42,7 @@ namespace AstroCreate.Gameplay
 
         public float Time
         {
-            get => audioStreamPlayer?.time ?? _time;
+            get => audioStreamPlayer != null ? audioStreamPlayer.time : _time;
             set
             {
                 if (audioStreamPlayer != null)

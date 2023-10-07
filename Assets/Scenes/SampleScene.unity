@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _time: 0
-  audioStreamPlayer: {fileID: 484782265}
+  audioStreamPlayer: {fileID: 0}
 --- !u!4 &2012577698
 Transform:
   m_ObjectHideFlags: 0
