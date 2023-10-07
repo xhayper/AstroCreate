@@ -74,6 +74,9 @@ crashlytics-build.properties
 # User defined
 .DS_Store
 
+## Rider
+.idea/
+
 ## Copyright issue
 Assets/Charts/**/*.png
 Assets/Charts/**/*.mp4
