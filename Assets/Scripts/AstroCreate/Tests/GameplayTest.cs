@@ -8,6 +8,7 @@ using AstroCreate.Utilities;
 using SimaiSharp;
 using SimaiSharp.Structures;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 namespace AstroCreate.Tests
 {
@@ -87,7 +88,8 @@ namespace AstroCreate.Tests
                 else if (note.type is NoteType.Tap or NoteType.Break && note.length == null)
                 {
                     var tapNote = Instantiate(tapNotePrefab, noteFolder?.transform);
-                    tapNote.transform.position = new Vector2(.5f, .5f);
+                    tapNote.name = $"Touch (T{note.location.index + 1})";
+                    tapNote.transform.position = UnityEngine.Vector2.zero;
                     tapNote.transform.Rotate(new Vector3(0, 0, NoteUtility.GetRotation(note.location)));
                     tapNote.SetActive(false);
 

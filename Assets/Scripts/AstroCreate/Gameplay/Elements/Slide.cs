@@ -31,16 +31,24 @@ namespace AstroCreate.Gameplay
                 var slideLength = generator.GetLength();
                 length += slideLength;
 
+                var slideHolder = new GameObject();
+                slideHolder.name = "Slide";
+                slideHolder.transform.parent = parentObject?.transform;
+
+                var slideId = 0;
                 for (var i = RenderManager.SlideSpacing; i < slideLength; i += RenderManager.SlideSpacing)
                 {
                     generator.GetPoint(Mathf.Clamp(i / slideLength, 0, 1), out var location, out var rotation);
                     
-                    var slide = UnityEngine.Object.Instantiate(SlideSegmentPrefab, parentObject?.transform);
+                    var slide = UnityEngine.Object.Instantiate(SlideSegmentPrefab, slideHolder.transform);
+                    slide.name = $"SlideSegment ({slideId})";
                     slide.transform.position = location;
                     slide.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -rotation));
                     slide.SetActive(false);
 
                     gameObjects.Add(slide);
+
+                    slideId++;
                 }
 
                 SlideObjectList.Add(gameObjects);
