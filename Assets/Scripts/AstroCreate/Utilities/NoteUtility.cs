@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace AstroCreate.Utilities
 {
-
     public static class NoteUtility
     {
         public static float GetRotation(in Location location)

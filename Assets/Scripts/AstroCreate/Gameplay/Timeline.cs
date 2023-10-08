@@ -1,15 +1,15 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-#nullable enable
 
 namespace AstroCreate.Gameplay
 {
     public class Timeline : MonoBehaviour
     {
         public float _time;
-        
+
         [SerializeField] public AudioSource? audioStreamPlayer;
 
         public readonly List<ObjectBehaviour.ObjectBehaviour> Behaviours = new();
@@ -18,12 +18,11 @@ namespace AstroCreate.Gameplay
 
         [NonSerialized] public float firstNote;
 
-        public static Timeline Instance => _instance;
-        private static Timeline _instance;
+        public static Timeline Instance { get; private set; }
 
         public bool Paused
         {
-            get => audioStreamPlayer != null ? audioStreamPlayer.isPlaying : _paused;
+            get => !audioStreamPlayer?.isPlaying ?? _paused;
             set
             {
                 if (audioStreamPlayer != null)
@@ -42,7 +41,7 @@ namespace AstroCreate.Gameplay
 
         public float Time
         {
-            get => audioStreamPlayer != null ? audioStreamPlayer.time : _time;
+            get => audioStreamPlayer?.time ?? _time;
             set
             {
                 if (audioStreamPlayer != null)
@@ -54,15 +53,15 @@ namespace AstroCreate.Gameplay
 
         public void Awake()
         {
-            if (_instance && _instance != this)
+            if (Instance && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            if (_instance != null) return;
+            if (Instance != null) return;
 
-            _instance = this;
+            Instance = this;
             DontDestroyOnLoad(this);
         }
 
@@ -70,11 +69,9 @@ namespace AstroCreate.Gameplay
         {
             if (Paused) return;
 
-            var delta = UnityEngine.Time.deltaTime;
-
             foreach (var behaviour in Behaviours) behaviour.Update(Time - firstNote);
 
-            if (audioStreamPlayer == null) _time += delta;
+            if (audioStreamPlayer == null) _time += UnityEngine.Time.deltaTime;
             else _time = audioStreamPlayer.time;
         }
 

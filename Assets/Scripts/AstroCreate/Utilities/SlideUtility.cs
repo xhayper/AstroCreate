@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 using System.Linq;
 using AstroDX.Contexts.Gameplay.SlideGenerators;
 using SimaiSharp.Structures;
-using UnityEngine;
-
-#nullable enable
 
 namespace AstroCreate.Utilities
 {
-
     public static class SlideUtility
     {
         public static readonly IReadOnlyList<Location> TAP_LIST = new[]
@@ -47,9 +45,6 @@ namespace AstroCreate.Utilities
 
             foreach (var segment in path.segments)
             {
-                foreach (var verticies in segment.vertices)
-                    Debug.Log($"Slide {segment.slideType} | {startPosition.group}{startPosition.index} => {verticies.group}{verticies.index}");
-
                 var generator = MakeSlideGenerator(startPosition, segment);
                 startPosition = segment.vertices.Last();
 

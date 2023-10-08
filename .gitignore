@@ -78,9 +78,9 @@ crashlytics-build.properties
 .idea/
 
 ## Copyright issue
-Assets/Charts/**/*.png
-Assets/Charts/**/*.png.meta
-Assets/Charts/**/*.mp4
-Assets/Charts/**/*.mp4.meta
-Assets/Charts/**/*.mp3
-Assets/Charts/**/*.mp3.meta
+Assets/Resources/Charts/**/*.png
+Assets/Resources/Charts/**/*.png.meta
+Assets/Resources/Charts/**/*.mp4
+Assets/Resources/Charts/**/*.mp4.meta
+Assets/Resources/Charts/**/*.mp3
+Assets/Resources/Charts/**/*.mp3.meta
