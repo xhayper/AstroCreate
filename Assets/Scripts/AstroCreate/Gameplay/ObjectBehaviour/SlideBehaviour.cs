@@ -20,5 +20,10 @@ namespace AstroCreate.Gameplay.ObjectBehaviour
             if (0 > dt) obj.slide.SetVisible(1);
             else obj.slide.SetVisible(dt);
         }
+
+        public override void Destroy()
+        {
+            obj.slide.Destroy();
+        }
     }
 }

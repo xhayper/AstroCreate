@@ -14,8 +14,10 @@ namespace AstroCreate.Gameplay
         public static readonly GameObject SlideSegmentPrefab = Resources.Load<GameObject>("Prefabs/SlideSegment");
 
         public readonly float length;
+        public readonly List<GameObject> SlideContainerList = new();
 
         public readonly List<List<GameObject>> SlideObjectList = new();
+
         public readonly List<SlidePath> SlidePaths;
 
         public Slide(Note note, List<SlidePath> slidePaths, GameObject? parentObject = null)
@@ -39,7 +41,7 @@ namespace AstroCreate.Gameplay
                 for (var i = RenderManager.SlideSpacing; i < slideLength; i += RenderManager.SlideSpacing)
                 {
                     generator.GetPoint(Mathf.Clamp(i / slideLength, 0, 1), out var location, out var rotation);
-                    
+
                     var slide = UnityEngine.Object.Instantiate(SlideSegmentPrefab, slideHolder.transform);
                     slide.name = $"SlideSegment ({slideId})";
                     slide.transform.position = location;
@@ -52,6 +54,7 @@ namespace AstroCreate.Gameplay
                 }
 
                 SlideObjectList.Add(gameObjects);
+                SlideContainerList.Add(slideHolder);
             }
         }
 
@@ -72,6 +75,14 @@ namespace AstroCreate.Gameplay
                 obj.SetActive(currentLength / length >= Mathf.Clamp(t, 0, 1));
                 currentLength += RenderManager.SlideSpacing;
             }
+        }
+
+        public void Destroy()
+        {
+            foreach (var slideContainer in SlideContainerList) UnityEngine.Object.Destroy(slideContainer);
+            SlideContainerList.Clear();
+            SlideObjectList.Clear();
+            SlidePaths.Clear();
         }
     }
 }

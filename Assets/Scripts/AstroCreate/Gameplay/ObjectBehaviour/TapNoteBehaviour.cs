@@ -20,5 +20,10 @@ namespace AstroCreate.Gameplay.ObjectBehaviour
             obj.obj.transform.position = Vector2.Lerp(Vector2.zero, NoteUtility.GetPosition(obj.note.location), dt);
             obj.obj.SetActive(dt is > 0 and <= 1);
         }
+
+        public override void Destroy()
+        {
+            UnityEngine.Object.Destroy(obj.obj);
+        }
     }
 }

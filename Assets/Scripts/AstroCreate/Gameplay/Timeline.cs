@@ -22,10 +22,10 @@ namespace AstroCreate.Gameplay
 
         public bool Paused
         {
-            get => !audioStreamPlayer?.isPlaying ?? _paused;
+            get => audioStreamPlayer != null && audioStreamPlayer.clip != null ? !audioStreamPlayer.isPlaying : _paused;
             set
             {
-                if (audioStreamPlayer != null)
+                if (audioStreamPlayer != null && audioStreamPlayer.clip != null)
                 {
                     if (value)
                         audioStreamPlayer.Stop();
@@ -41,10 +41,10 @@ namespace AstroCreate.Gameplay
 
         public float Time
         {
-            get => audioStreamPlayer?.time ?? _time;
+            get => audioStreamPlayer != null && audioStreamPlayer.clip != null ? audioStreamPlayer.time : _time;
             set
             {
-                if (audioStreamPlayer != null)
+                if (audioStreamPlayer != null && audioStreamPlayer.clip != null)
                     audioStreamPlayer.time = value;
                 else
                     _time = value;
@@ -71,13 +71,19 @@ namespace AstroCreate.Gameplay
 
             foreach (var behaviour in Behaviours) behaviour.Update(Time - firstNote);
 
-            if (audioStreamPlayer == null) _time += UnityEngine.Time.deltaTime;
+            if (audioStreamPlayer == null || audioStreamPlayer.clip == null) _time += UnityEngine.Time.deltaTime;
             else _time = audioStreamPlayer.time;
         }
 
         public void AddBehaviour(ObjectBehaviour.ObjectBehaviour behaviour)
         {
             Behaviours.Add(behaviour);
+        }
+
+        public void DestroyBehaviours()
+        {
+            foreach (var behaviour in Behaviours) behaviour.Destroy();
+            Behaviours.Clear();
         }
     }
 }
