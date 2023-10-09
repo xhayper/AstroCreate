@@ -45,7 +45,7 @@ namespace AstroCreate.Gameplay
                     var slide = UnityEngine.Object.Instantiate(SlideSegmentPrefab, slideHolder.transform);
                     slide.name = $"SlideSegment ({slideId})";
                     slide.transform.position = location;
-                    slide.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -rotation));
+                    slide.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation * Mathf.Rad2Deg));
                     slide.SetActive(false);
 
                     gameObjects.Add(slide);
