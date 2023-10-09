@@ -38,9 +38,9 @@ namespace AstroCreate.Utilities
             };
         }
 
-        public static IReadOnlyList<SlideGenerator> MakeSlideGenerator(Note note, SlidePath path)
+        public static IReadOnlyList<SlideGeneratorData> MakeSlideGenerator(Note note, SlidePath path)
         {
-            var generators = new List<SlideGenerator>();
+            var generators = new List<SlideGeneratorData>();
             var startPosition = note.location;
 
             foreach (var segment in path.segments)
@@ -48,10 +48,20 @@ namespace AstroCreate.Utilities
                 var generator = MakeSlideGenerator(startPosition, segment);
                 startPosition = segment.vertices.Last();
 
-                if (generator != null) generators.Add(generator);
+                if (generator != null)
+                    generators.Add(new SlideGeneratorData
+                        { generator = generator, segment = segment, path = path, note = note });
             }
 
             return generators.AsReadOnly();
+        }
+
+        public struct SlideGeneratorData
+        {
+            public SlideGenerator generator;
+            public SlideSegment segment;
+            public SlidePath path;
+            public Note note;
         }
     }
 }

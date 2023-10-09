@@ -114,7 +114,7 @@ namespace AstroCreate.Tests
             foreach (var note in noteCollection)
                 if (note.slidePaths.Count > 0)
                 {
-                    var slide = new Slide(note, note.slidePaths, noteFolder);
+                    var slide = new Slide(note, noteFolder);
 
                     var slideObject = new SlideObject
                     {
